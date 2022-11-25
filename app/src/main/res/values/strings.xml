@@ -7,6 +7,15 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="hint_book_title">Title…</string>
+    <string name="hint_book_author">Author…</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Book not saved because there are empty fields</string>
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="book_added">Ksiązka dodana</string>
+    <string name="book_edited">Książka edytowana</string>
+    <string name="book_deleted">Ksiazka usunięta</string>
+    <string name="title_activity_main2">MainActivity2</string>
 </resources>

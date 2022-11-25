@@ -2,9 +2,11 @@ package com.example.libraryapp;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -17,9 +19,22 @@ public abstract class BookDatabase extends RoomDatabase {
 
     public abstract BookDao bookDao();
 
+    private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            databaseWriteExecutor.execute(() -> {
+                BookDao dao = databaseInstance.bookDao();
+                dao.deleteAll();
+
+                Book book = new Book("Clean code", "Robert C. Martin");
+                dao.insert(book);
+            });
+        }
+    };
     static BookDatabase getDatabase(final Context context){
         if(databaseInstance==null){
-            databaseInstance= Room.databaseBuilder(context.getApplicationContext(),BookDatabase.class,"book_database").build();
+            databaseInstance= Room.databaseBuilder(context.getApplicationContext(),BookDatabase.class,"book_database").addCallback(sRoomDatabaseCallback).build();
         }
         return databaseInstance;
     }
